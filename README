@@ -9,3 +9,7 @@ This experiment is based on a vertical rendition of the SIMILE Timeline Widget, 
 With infinite scrolling systems commonly employed in sites and applications where a data stream is useful, the scrollbar doesn't function ideally since dragging it to the bottom doesn't get you to the actual end and when the next page is automatically loaded, the bar behaves erratically. By not associating the abstract top or bottom of an arbitrary subset of the page, the scrolling is uniform and universal, pagination happens naturally.
 
 Coarse, Medium and Fine scrolling is accomplished by utilizing the different scrollbars intended for scrolling the page. The extended scrollbars appear once the scrolling is initiated. The precision of scrolling is proportional to the horizontal position of the mouse. This is inspired partly by the scrubbing bar on the iOS iPod application.
+
+I wont pretend this is a solution that's perfect for everything. People are accustomed to scroll bars which operate on a somewhat strange notion that the content goes up when you drag down because you're moving the viewport rather than the content that lies below. Since this approach opts for dragging the content, the motion is reversed and may require some time to become accustomed to.
+
+Mouse movement is somewhat awkward as to navigate to an arbitrary section, one must go to the right edge, mouse down, drag to the left move down and move back to the right edge before letting go and doing stuff.
