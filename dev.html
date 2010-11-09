@@ -16,10 +16,10 @@
       #scroll .scrollbar.alt .mask {
         width: 0px;
       }
-      #scroll:hover .scrollbar.alt .mask {
+      #scroll.mousedown .scrollbar.alt .mask {
         width: 42px;
       }
-      #scroll:hover .scrollbar.alt {
+      #scroll.mousedown .scrollbar.alt {
         width: 42px;
         border-left:1px solid gray;
       }
@@ -28,7 +28,7 @@
         width:24px;
         background-color:#F0F0F0;
       }
-      #scroll:hover .scrollbar.main {
+      #scroll.mousedown .scrollbar.main {
         width: 100px !important;
       }
       .scrollbar.alt1 {
@@ -57,7 +57,7 @@
         filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
       }
       
-      #scroll:hover .scrollbar.main li{
+      #scroll.mousedown .scrollbar.main li{
         -moz-transform:rotate(0deg); 
         -webkit-transform: rotate(0deg);
         -o-transform: rotate(0deg);
@@ -74,7 +74,7 @@
       #scroll .scrollbar.main .mask {
         width: 24px ;
       }
-      #scroll:hover .scrollbar.main .mask {
+      #scroll.mousedown .scrollbar.main .mask {
         width: 100px !important;
       }
     </style>
@@ -87,9 +87,11 @@
       console.log(e)
       e.stopPropagation();
       e.preventDefault();
+      document.getElementById('scroll').className += ' mousedown'
     }
     
     function endScroll(e){
+      document.getElementById('scroll').className = document.getElementById('scroll').className.replace(/mousedown/g,'');
     }
     
     function mouseMove(e){
