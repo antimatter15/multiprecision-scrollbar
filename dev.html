@@ -6,6 +6,8 @@
         top: 0;
         height: 100%;
         right: 0;
+		z-index: 99999;
+		opacity: 0.9;
         position:absolute;
       }
       
@@ -79,10 +81,11 @@
       }
     </style>
   </head>
-  <body onmouseup="endScroll()">
+  <body onmouseup="endScroll()" style="overflow:hidden">
 
     <script>
     $ = function(e){return document.querySelectorAll(e)}
+	
     function scrollInit(e){
       console.log(e)
       e.stopPropagation();
@@ -91,13 +94,21 @@
     }
     
     function endScroll(e){
-      document.getElementById('scroll').className = document.getElementById('scroll').className.replace(/mousedown/g,'');
+      document.getElementById('scroll').className = document.getElementById('scroll').className.replace(/\s*mousedown/g,'');
     }
     
     function mouseMove(e){
     
     }
+	
+	window.onload = function(){
+		for(var e = $("h1,h2,h3,h4,h5"), l = e.length; l--;){
+				
+		}
+	}
+	
     </script>
+	<script src="http://bridell.com/files/loremipsum.js"></script>
     <div id="scroll" onmousedown="scrollInit(event)" onmousemove="mouseMove(event)">
         <div class="scrollbar main">
             <div class="mask" style="height:40%;top:0"></div>
@@ -111,5 +122,18 @@
             <div class="mask" style="height:48%;top:0"></div>
             <div class="mask" style="height:48%;bottom:0"></div>
         </div>
+	</div>
+	<div style="margin-right:24px" id="textscroll">
+	<h1>Experimental Multiprecision Scrollbar</h1>
+	<script>loremIpsumParagraph(1000)</script>
+	<h2>Blah Blah Blah</h2>
+	<script>loremIpsumParagraph(1000)</script>
+	<h2>Blah Blah Blah</h2>
+	<script>loremIpsumParagraph(1000)</script>
+	<h2>Blah Blah Blah</h2>
+	<script>loremIpsumParagraph(1000)</script>
+	<h2>Blah Blah Blah</h2>
+	<script>loremIpsumParagraph(1000)</script>
+	</div>
   </body>
 </html>
