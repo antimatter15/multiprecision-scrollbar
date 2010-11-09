@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      #scroll {
+        top: 0;
+        height: 100%;
+        right: 0;
+        position:absolute;
+      }
+      
+      #scroll .scrollbar.alt {
+        width: 0px;
+        border-left:0px solid gray
+      }
+      #scroll .scrollbar.alt .mask {
+        width: 0px;
+      }
+      #scroll:hover .scrollbar.alt .mask {
+        width: 42px;
+      }
+      #scroll:hover .scrollbar.alt {
+        width: 42px;
+        border-left:1px solid gray;
+      }
+      
+      #scroll .scrollbar.main {
+        width:24px;
+        background-color:#F0F0F0;
+      }
+      #scroll:hover .scrollbar.main {
+        width: 100px !important;
+      }
+      .scrollbar.alt1 {
+        background-color:#E9E9E9;
+      }
+      .scrollbar.alt2 {
+        background-color:#E0E0E0;
+      }
+      .scrollbar {
+        overflow:hidden;
+        width: 100%;
+        height:100%;
+        float:right;
+        border-left:1px solid gray;
+        -webkit-transition: width .2s ease-in-out
+      }
+      
+      .scrollbar.main li {
+        list-style-type: none;
+        -moz-transform:rotate(-270deg); 
+        -moz-transform-origin: bottom left;
+        -webkit-transform: rotate(-270deg);
+        -webkit-transform-origin: bottom left;
+        -o-transform: rotate(-270deg);
+        -o-transform-origin:  bottom left;
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+      }
+      
+      #scroll:hover .scrollbar.main li{
+        -moz-transform:rotate(0deg); 
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+      }
+      
+      .scrollbar .mask {
+        background-color:black;
+        opacity:0.1;
+        width: 42px;
+        position:absolute;
+        -webkit-transition: width .2s ease-in-out
+      }
+      #scroll .scrollbar.main .mask {
+        width: 24px ;
+      }
+      #scroll:hover .scrollbar.main .mask {
+        width: 100px !important;
+      }
+    </style>
+  </head>
+  <body onmouseup="endScroll()">
+
+    <script>
+    $ = function(e){return document.querySelectorAll(e)}
+    function scrollInit(e){
+      console.log(e)
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    
+    function endScroll(e){
+    }
+    
+    function mouseMove(e){
+    
+    }
+    </script>
+    <div id="scroll" onmousedown="scrollInit(event)" onmousemove="mouseMove(event)">
+        <div class="scrollbar main">
+            <div class="mask" style="height:40%;top:0"></div>
+            <div class="mask" style="height:40%;bottom:0"></div>
+        </div>
+        <div class="scrollbar alt alt1">
+            <div class="mask" style="height:45%;top:0"></div>
+            <div class="mask" style="height:45%;bottom:0"></div>
+        </div>
+        <div class="scrollbar alt alt2">
+            <div class="mask" style="height:48%;top:0"></div>
+            <div class="mask" style="height:48%;bottom:0"></div>
+        </div>
+  </body>
+</html>
