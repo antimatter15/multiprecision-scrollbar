@@ -13,3 +13,5 @@ Coarse, Medium and Fine scrolling is accomplished by utilizing the different scr
 I wont pretend this is a solution that's perfect for everything. People are accustomed to scroll bars which operate on a somewhat strange notion that the content goes up when you drag down because you're moving the viewport rather than the content that lies below. Since this approach opts for dragging the content, the motion is reversed and may require some time to become accustomed to.
 
 Mouse movement is somewhat awkward as to navigate to an arbitrary section, one must go to the right edge, mouse down, drag to the left move down and move back to the right edge before letting go and doing stuff.
+
+It's designed for scrolling large multisectional documents or collections of such documents, with titles in chronological order. It's not so great for scrolling unstructured viewports.
