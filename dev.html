@@ -79,31 +79,68 @@
       #scroll.mousedown .scrollbar.main .mask {
         width: 100px !important;
       }
+      .points {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+      }
+      .marker {
+        color: #1874CD;
+        width: 500px;
+        min-height: 4px;
+        position: relative;
+        
+      }
     </style>
   </head>
   <body onmouseup="endScroll()" style="overflow:hidden">
 
     <script>
     $ = function(e){return document.querySelectorAll(e)}
-	
+	  var isScrolling = false;
     function scrollInit(e){
-      console.log(e)
+      console.log(e);
+      var points = $('.scrollbar.main .points')[0];
+      var t = parseFloat(points.style.top);
+      isScrolling = [e.clientX, e.clientY, t];
       e.stopPropagation();
       e.preventDefault();
       document.getElementById('scroll').className += ' mousedown'
     }
     
     function endScroll(e){
+      isScrolling = false;
       document.getElementById('scroll').className = document.getElementById('scroll').className.replace(/\s*mousedown/g,'');
     }
     
     function mouseMove(e){
-    
+      if(isScrolling){
+        var points = $('.scrollbar.main .points')[0];
+
+        var sp = -(100 * (isScrolling[1]-e.clientY)/innerHeight) + isScrolling[2];
+        if(sp > 40) sp = 40;
+        points.style.top = sp + '%';
+        console.log(40-sp);
+        $('#textscroll')[0].scrollTop = inception[0] * (40-sp)/100;
+      }
     }
+	
+	var inception = [3337]
 	
 	window.onload = function(){
 		for(var e = $("h1,h2,h3,h4,h5"), l = e.length; l--;){
-				
+			var pos = e[l].offsetTop;
+			//var max = e[l].parentNode.scrollHeight;
+			var marker = document.createElement('div');
+			marker.style.top = 100 * pos/inception[0] + '%';
+			marker.className = 'marker'
+			marker.innerText = e[l].innerText;
+			$('.scrollbar.main .points')[0].appendChild(marker);
+		}
+		
+		$('#textscroll')[0].onscroll = function(){
+		  var points = $('.scrollbar.main .points')[0];
+		  points.style.top = (-100*$('#textscroll')[0].scrollTop/inception[0] + 40) + "%"
 		}
 	}
 	
@@ -113,27 +150,32 @@
         <div class="scrollbar main">
             <div class="mask" style="height:40%;top:0"></div>
             <div class="mask" style="height:40%;bottom:0"></div>
+            <div class="points" style="top: 40%"></div>
         </div>
         <div class="scrollbar alt alt1">
             <div class="mask" style="height:45%;top:0"></div>
             <div class="mask" style="height:45%;bottom:0"></div>
+            <div class="points"></div>
         </div>
         <div class="scrollbar alt alt2">
             <div class="mask" style="height:48%;top:0"></div>
             <div class="mask" style="height:48%;bottom:0"></div>
+            <div class="points"></div>
         </div>
 	</div>
-	<div style="margin-right:24px" id="textscroll">
-	<h1>Experimental Multiprecision Scrollbar</h1>
-	<script>loremIpsumParagraph(1000)</script>
-	<h2>Blah Blah Blah</h2>
-	<script>loremIpsumParagraph(1000)</script>
-	<h2>Blah Blah Blah</h2>
-	<script>loremIpsumParagraph(1000)</script>
-	<h2>Blah Blah Blah</h2>
-	<script>loremIpsumParagraph(1000)</script>
-	<h2>Blah Blah Blah</h2>
-	<script>loremIpsumParagraph(1000)</script>
+	<div style="position:absolute;top:0;left:0;width:100%;height:100%;overflow:auto"  id="textscroll">
+	  <div style="margin-right:24px">
+	    <h1>Experimental Multiprecision Scrollbar</h1>
+	    <script>loremIpsumParagraph(1000)</script>
+	    <h2>Blah Blah Blah</h2>
+	    <script>loremIpsumParagraph(1000)</script>
+	    <h2>Blah Blah Blah</h2>
+	    <script>loremIpsumParagraph(1000)</script>
+	    <h2>Blah Blah Blah</h2>
+	    <script>loremIpsumParagraph(1000)</script>
+	    <h2>Blah Blah Blah</h2>
+	    <script>loremIpsumParagraph(1000)</script>
+	  </div>
 	</div>
   </body>
 </html>
