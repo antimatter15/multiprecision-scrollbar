@@ -104,11 +104,11 @@
     <script>
     $ = function(e){return document.querySelectorAll(e)}
 	  var isScrolling = false;
+	  var lastTime = 0;
+	  
     function scrollInit(e){
       //console.log(e);
-      var points = $('.scrollbar.l0 .points')[0];
-      var t = parseFloat(points.style.top);
-      isScrolling = [e.clientX, e.clientY, t];
+      isScrolling = true;
       e.stopPropagation();
       e.preventDefault();
       document.getElementById('scroll').className += ' mousedown'
@@ -120,21 +120,25 @@
     }
     
     function mouseMove(e){
+     
+      
       if(isScrolling){
-        var points = $('.scrollbar.l0 .points')[0];
-
-        var sp = -(100 * (isScrolling[1]-e.clientY)/innerHeight) + isScrolling[2];
+       if(+new Date - lastTime > 500){
+          var points = $('.scrollbar.l0 .points')[0];
+          deltaT = parseFloat(points.style.top);
+          isScrolling = [e.clientX, e.clientY];
+          lastTime = +new Date;
+        }
+        var sp = -(100 * (isScrolling[1]-e.clientY)/innerHeight) + deltaT;
         
         var bucket = innerWidth - e.clientX;
         console.log(bucket);
         
-        var value = Math.floor(16.63 * bucket);
+        var value = Math.max(1337, Math.floor(16.63 * bucket));
         console.log(value);
         
         if(sp > 40) sp = 40;
         
-        points.style.top = sp + '%';
-        //console.log(40-sp);
         $('#textscroll')[0].scrollTop = value * (40-sp)/100;
       }
     }
@@ -160,6 +164,8 @@
         addMarker(e[l], 1);
       }
 		}
+		updateMarkers(0);
+	  updateMarkers(1);
 		
 		$('#textscroll')[0].onscroll = function(){
 		  updateMarkers(0);
