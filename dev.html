@@ -30,17 +30,17 @@
         border-left:1px solid gray;
       }
       
-      #scroll .scrollbar.main {
+      #scroll .scrollbar.l0 {
         width:24px;
         background-color:#F0F0F0;
       }
-      #scroll.mousedown .scrollbar.main {
+      #scroll.mousedown .scrollbar.l0 {
         width: 100px !important;
       }
-      .scrollbar.alt1 {
+      .scrollbar.l1 {
         background-color:#E9E9E9;
       }
-      .scrollbar.alt2 {
+      .scrollbar.l2 {
         background-color:#E0E0E0;
       }
       .scrollbar {
@@ -52,7 +52,7 @@
         -webkit-transition: width .2s ease-in-out
       }
       
-      .scrollbar.main li {
+      .scrollbar.l0 li {
         list-style-type: none;
         -moz-transform:rotate(-270deg); 
         -moz-transform-origin: bottom left;
@@ -63,7 +63,7 @@
         filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
       }
       
-      #scroll.mousedown .scrollbar.main li{
+      #scroll.mousedown .scrollbar.l0 li{
         -moz-transform:rotate(0deg); 
         -webkit-transform: rotate(0deg);
         -o-transform: rotate(0deg);
@@ -77,10 +77,10 @@
         position:absolute;
         -webkit-transition: width .2s ease-in-out
       }
-      #scroll .scrollbar.main .mask {
+      #scroll .scrollbar.l0 .mask {
         width: 24px ;
       }
-      #scroll.mousedown .scrollbar.main .mask {
+      #scroll.mousedown .scrollbar.l0 .mask {
         width: 100px !important;
       }
       .points {
@@ -94,7 +94,7 @@
         font-size: x-small;
         min-height: 4px;
        
-        position: relative;
+        position: absolute;
         
       }
     </style>
@@ -105,8 +105,8 @@
     $ = function(e){return document.querySelectorAll(e)}
 	  var isScrolling = false;
     function scrollInit(e){
-      console.log(e);
-      var points = $('.scrollbar.main .points')[0];
+      //console.log(e);
+      var points = $('.scrollbar.l0 .points')[0];
       var t = parseFloat(points.style.top);
       isScrolling = [e.clientX, e.clientY, t];
       e.stopPropagation();
@@ -121,49 +121,71 @@
     
     function mouseMove(e){
       if(isScrolling){
-        var points = $('.scrollbar.main .points')[0];
+        var points = $('.scrollbar.l0 .points')[0];
 
         var sp = -(100 * (isScrolling[1]-e.clientY)/innerHeight) + isScrolling[2];
+        
+        var bucket = innerWidth - e.clientX;
+        console.log(bucket);
+        
+        var value = Math.floor(16.63 * bucket);
+        console.log(value);
+        
         if(sp > 40) sp = 40;
+        
         points.style.top = sp + '%';
-        console.log(40-sp);
-        $('#textscroll')[0].scrollTop = inception[0] * (40-sp)/100;
+        //console.log(40-sp);
+        $('#textscroll')[0].scrollTop = value * (40-sp)/100;
       }
     }
 	
-	var inception = [1337]
+	var inception = [1337,3000];
+	
+	
+	function addMarker(el, level){
+		var pos = el.offsetTop;
+		var marker = document.createElement('div');
+		marker.style.top = 100 * pos/inception[level] + '%';
+		marker.className = 'marker'
+		marker.innerText = el.innerText;
+		$('.scrollbar.l'+level+' .points')[0].appendChild(marker);
+	}
 	
 	window.onload = function(){
 		for(var e = $("h1,h2,h3,h4,h5"), l = e.length; l--;){
-			var pos = e[l].offsetTop;
-			//var max = e[l].parentNode.scrollHeight;
-			var marker = document.createElement('div');
-			marker.style.top = 100 * pos/inception[0] + '%';
-			marker.className = 'marker'
-			marker.innerText = e[l].innerText;
-			$('.scrollbar.main .points')[0].appendChild(marker);
+			var r = l % 2;
+			if(r == 0){
+        addMarker(e[l], 0);
+      }else if(r == 1){
+        addMarker(e[l], 1);
+      }
 		}
 		
 		$('#textscroll')[0].onscroll = function(){
-		  var points = $('.scrollbar.main .points')[0];
-		  points.style.top = (-100*$('#textscroll')[0].scrollTop/inception[0] + 40) + "%"
+		  updateMarkers(0);
+		  updateMarkers(1);
 		}
 	}
+	
+	function updateMarkers(level){
+     var points = $('.scrollbar.l'+level+' .points')[0];
+	  points.style.top = (-100*$('#textscroll')[0].scrollTop/inception[level] + 40) + "%"
+  }
 	
     </script>
 	<script src="http://bridell.com/files/loremipsum.js"></script>
     <div id="scroll" onmousedown="scrollInit(event)" onmousemove="mouseMove(event)">
-        <div class="scrollbar main">
+        <div class="scrollbar l0">
             <div class="mask" style="height:40%;top:0"></div>
             <div class="mask" style="height:40%;bottom:0"></div>
             <div class="points" style="top: 40%"></div>
         </div>
-        <div class="scrollbar alt alt1">
+        <div class="scrollbar alt l1">
             <div class="mask" style="height:45%;top:0"></div>
             <div class="mask" style="height:45%;bottom:0"></div>
             <div class="points"></div>
         </div>
-        <div class="scrollbar alt alt2">
+        <div class="scrollbar alt l2">
             <div class="mask" style="height:48%;top:0"></div>
             <div class="mask" style="height:48%;bottom:0"></div>
             <div class="points"></div>
